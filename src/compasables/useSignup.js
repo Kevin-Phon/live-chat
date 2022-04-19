@@ -9,11 +9,10 @@ let createAccount=async(email,password,displayName)=>{
         if(!res){
             throw new Error("Could not create new user!")
         }
-        res.user.updateProfile({displayName}) // displayName:displayName (key,value is same so only use one)
+        res.user.updateProfile({displayName}) // displayName:displayName (key,value is same so can only use one)
         return res;
     }catch(err){
-        error.value = err.message
-        console.log(err.message);
+        error.value = err.message;
     }
 }
 
