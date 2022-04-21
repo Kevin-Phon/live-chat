@@ -1,8 +1,8 @@
 <template>
-  <nav>
+  <nav v-if="user">
     <div>
-        <p>Hi display name</p>
-        <p class="email">Logged in as email</p>
+        <p>Hi {{user.displayName}}</p>
+        <p class="email">Logged in as {{user.email}}</p>
     </div>
     <button @click="logout">Log out</button>
   </nav>
@@ -11,9 +11,12 @@
 <script>
 import { ref } from '@vue/reactivity'
 import {auth} from "../fierbase/config"
+import getUser from "../compasables/getUser"
 export default {
     setup(){
         let error = ref(null)
+        
+        let {user} = getUser();
 
         let logout=async()=>{
             try{
@@ -25,7 +28,7 @@ export default {
             }
         }
 
-        return {logout,error}
+        return {logout,error,user}
     }
 }
 </script>
