@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import WelcomeView from '../views/WelcomeView.vue'
 import ChatroomView from '../views/ChatroomView.vue'
+import { auth } from '@/fierbase/config'
 
 const routes = [
   {
@@ -11,7 +12,17 @@ const routes = [
   {
     path: '/chatroom',
     name: 'Chatroom',
-    component: ChatroomView
+    component: ChatroomView,
+    
+          // Route Guard
+    beforeEnter(to,from,next){
+      let user = auth.currentUser;
+      if(user){
+        next();
+      }else{
+        next({name:"Welcome"})
+      }
+    }
   }
 ]
 
