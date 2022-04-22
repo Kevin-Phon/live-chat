@@ -9,18 +9,22 @@
 import { ref } from '@vue/reactivity';
 import getUser from '../compasables/getUser'
 import {timestamp} from '../fierbase/config'
+import useCollection from '../compasables/useCollection'
 export default {
     setup(){
-        let {user} = getUser()
-
         let message = ref("");
-        let handleSubmit=()=>{
+
+        let {user} = getUser();   // refactoring codes
+
+        let {error,addDoc} = useCollection("messages");  // refactoring codes
+
+        let handleSubmit=async()=>{
             let chat={
                 message : message.value,
                 name : user.value.displayName,
                 created_up : timestamp()
             }
-            console.log(chat);
+            await addDoc(chat)
             message.value = "";
         }
 
