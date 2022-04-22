@@ -2,7 +2,7 @@ import { ref } from "vue";
 import {db} from "../fierbase/config"
 
 let useCollection=(collection)=>{     // dynamic parameter
-    let error = ref(null)
+    let error = ref(null)        // coz of can be any error of selected collection,so use inside function
 
     let addDoc=async(doc)=>{       // dynamic parameter
         try{
