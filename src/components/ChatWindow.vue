@@ -1,17 +1,34 @@
 <template>
     <div class="chat-window">
-        <div class="messages">
+        <div class="messages" v-for="message in messages" :key="message.id">
             <div class="single">
-                <span class="created-at">3mins ago</span>
-                <span class="name">kayas</span>
-                <span class="message">Hello sir kayas</span>
+                <span class="created-at">{{message.created_up}}</span>
+                <span class="name">{{message.name}}</span>
+                <span class="message">{{message.message}}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { db } from '@/fierbase/config'
+import { ref } from '@vue/reactivity'
 export default {
+  setup(){
+    let messages = ref([])
+
+    db.collection("messages").orderBy("created_up").onSnapshot((snap)=>{
+      let results=[]
+      snap.docs.forEach((doc)=>{
+        // console.log(doc.data())
+        let document = {...doc.data(),id:doc.id}
+        // console.log(document)
+        results.push(document)
+      })
+      messages.value=results
+    })
+    return {messages}
+  }
 }
 </script>
 
