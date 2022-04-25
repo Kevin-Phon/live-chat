@@ -2,7 +2,7 @@
     <div class="chat-window">
         <div class="messages" v-for="message in messages" :key="message.id">
             <div class="single">
-                <span class="created-at">{{message.created_up}}</span>
+                <span class="created-at">{{message.created_up.toDate()}}</span>
                 <span class="name">{{message.name}}</span>
                 <span class="message">{{message.message}}</span>
             </div>
@@ -17,13 +17,15 @@ export default {
   setup(){
     let messages = ref([])
 
-    db.collection("messages").orderBy("created_up").onSnapshot((snap)=>{
+    db.collection("messages").orderBy("created_up").onSnapshot((snap)=>{      // onSnapshot = realtime
       let results=[]
       snap.docs.forEach((doc)=>{
         // console.log(doc.data())
         let document = {...doc.data(),id:doc.id}
         // console.log(document)
-        results.push(document)
+        if(doc.data().created_up){     // doc.data().created_up && results.push(document) <= can write like that too in 'if' function
+          results.push(document)       // run only when there is data in created_up,so there is no error on onSnapshot function
+        }
       })
       messages.value=results
     })
