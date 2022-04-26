@@ -46,10 +46,10 @@ export default {
     width: 300px;
     margin: 20px auto;
   }
-  /* .welcome label {
+  .welcome label {
     display: block;
     margin: 20px 0 10px;
-  } */
+  }
   .welcome input {
     width: 100%;
     padding: 10px;
