@@ -1,6 +1,6 @@
 <template>
     <div class="chat-window">
-        <div class="messages">
+        <div class="messages" ref="msgBox">
             <div class="single" v-for="message in formattedMessages" :key="message.id">
                 <span class="created-at">{{message.created_up}}</span>
                 <span class="name">{{message.name}}</span>
@@ -13,11 +13,17 @@
 <script>
 import { db } from '@/fierbase/config'
 import { ref } from '@vue/reactivity'
-import { computed } from '@vue/runtime-core'
+import { computed, onUpdated } from '@vue/runtime-core'
 import {formatDistanceToNow} from 'date-fns'
 export default {
   setup(){
     let messages = ref([])
+
+    // auto scrolling feature
+    let msgBox = ref(null)
+    onUpdated(()=>{
+      msgBox.value.scrollTop = msgBox.value.scrollHeight
+    })
 
     let formattedMessages = computed(()=>{
       return messages.value.map((msg)=>{       // map function base on original array and give a new array
@@ -38,7 +44,7 @@ export default {
       })
       messages.value=results
     })
-    return {messages,formattedMessages}
+    return {messages,formattedMessages,msgBox}
   }
 }
 </script>
